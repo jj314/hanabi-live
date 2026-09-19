@@ -1,0 +1,22 @@
+<!--
+  Applies the saved dark mode theme before the stylesheets load to avoid a flash of the light
+  theme. The preference logic must match the one in "packages/client/src/theme.ts".
+
+  This file is included verbatim by BOTH "server/src/views/layout.tmpl" (the Golang server) and
+  "packages/server/src/templates/layout.eta" (the TypeScript server). A test
+  ("packages/client/src/layoutThemeScript.test.ts") asserts that both templates stay in sync with
+  this file.
+-->
+<script type="text/javascript">
+  try {
+    var t = localStorage.getItem("darkMode");
+    var isDark =
+      t === "true"
+      || (t !== "false"
+        && window.matchMedia
+        && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    if (isDark) {
+      document.documentElement.dataset.theme = "dark";
+    }
+  } catch (e) {}
+</script>
